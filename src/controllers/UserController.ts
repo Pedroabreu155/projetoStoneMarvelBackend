@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import * as bcrypt from 'bcrypt';
-import { getConnection, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 export const createUser = async (request: Request, response: Response) => {
   const { name, email, password, favoriteComics, favoriteCharacters } =
@@ -42,7 +42,7 @@ export const getUserById = async (request: Request, response: Response) => {
   response.json(result);
 };
 
-export const addFavoritesComicsByUserId = async (
+export const updateFavoritesComicsByUserId = async (
   request: Request,
   response: Response
 ) => {
@@ -58,7 +58,7 @@ export const addFavoritesComicsByUserId = async (
   return response.status(404).json({ message: 'FavoriteComic not updated' });
 };
 
-export const addFavoritesCharactersByUserId = async (
+export const updateFavoritesCharactersByUserId = async (
   request: Request,
   response: Response
 ) => {
