@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dotenv_1 = __importDefault(require("dotenv"));
 require("reflect-metadata");
 var express_1 = __importDefault(require("express"));
-require("./database");
+require("./database/index");
 var routes_1 = __importDefault(require("./routes/routes"));
 dotenv_1.default.config();
 var app = express_1.default();
