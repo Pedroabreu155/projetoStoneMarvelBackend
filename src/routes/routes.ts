@@ -3,6 +3,7 @@ import {
   createUser,
   getUserById,
   getUsers,
+  updateUserById,
   getFavoritesComicsByUserId,
   getFavoritesCharactersByUserId,
   updateFavoritesComicsByUserId,
@@ -18,6 +19,7 @@ routes.get('/', (request: Request, response: Response) => {
 routes.post('/users', createUser);
 routes.get('/users', getUsers);
 routes.get('/users/:id', getUserById);
+routes.put('/users/edit-user/:id', updateUserById);
 routes.get('/users/favorites-comics/:id', getFavoritesComicsByUserId);
 routes.get('/users/favorites-characters/:id', getFavoritesCharactersByUserId);
 routes.put('/users/edit-favorite-comics/:id', updateFavoritesComicsByUserId);

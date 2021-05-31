@@ -17,9 +17,36 @@ export const createUser = async (request: Request, response: Response) => {
     favoriteCharacters,
   });
 
-  user.password = ''
+  user.password = '';
 
   response.json(user);
+};
+
+export const updateUserById = async (request: Request, response: Response) => {
+  const { id } = request.params;
+  const { name, email, password } = request.body;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await getRepository(User).update(id, {
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  if (user.affected === 1) {
+    const updatedUserCredentials = await getRepository(User).findOne(id);
+    const result = {
+      message: 'User updated!',
+      credentials: [
+        updatedUserCredentials?.name,
+        updatedUserCredentials?.email,
+      ],
+    };
+    return response.json(result);
+  }
+
+  return response.status(404).json({ message: 'User not updated' });
 };
 
 export const getUsers = async (request: Request, response: Response) => {
@@ -38,7 +65,7 @@ export const getUserById = async (request: Request, response: Response) => {
   const result = {
     id: user?.id,
     name: user?.name,
-    email: user?.email
+    email: user?.email,
   };
 
   response.json(result);
@@ -87,7 +114,7 @@ export const getFavoritesComicsByUserId = async (
   });
 
   const result = {
-    favoriteComics: user?.favoriteComics
+    favoriteComics: user?.favoriteComics,
   };
 
   response.json(result);
@@ -104,7 +131,7 @@ export const getFavoritesCharactersByUserId = async (
   });
 
   const result = {
-    favoriteCharacters: user?.favoriteCharacters
+    favoriteCharacters: user?.favoriteCharacters,
   };
 
   response.json(result);
