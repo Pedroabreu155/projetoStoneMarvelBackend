@@ -17,6 +17,8 @@ export const createUser = async (request: Request, response: Response) => {
     favoriteCharacters,
   });
 
+  user.password = ''
+
   response.json(user);
 };
 
