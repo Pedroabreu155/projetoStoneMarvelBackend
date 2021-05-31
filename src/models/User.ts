@@ -22,6 +22,12 @@ export default class User {
   @Column()
   password: string;
 
+  @Column('json', { nullable: true })
+  favoriteCharacters: JSON;
+
+  @Column('json', { nullable: true })
+  favoriteComics: JSON;
+
   @CreateDateColumn()
   created_at: Date;
 
