@@ -1,10 +1,6 @@
 module.exports = {
   "type": "postgres",
-  "host": "localhost",
-  "port": 5433,
-  "username": "postgres",
-  "password": "postgres",
-  "database": "stone",
+  "url": process.env.DATABASE_URL,
   "entities": [
     "./src/models/*ts"
   ],
