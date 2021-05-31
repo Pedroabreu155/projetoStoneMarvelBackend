@@ -25,16 +25,15 @@ Banco de dados usado:
 Outras Ferramentas:
  
  - Insomnia Client 
- - Dbeaver
- - Docker
+ - Pgadmin
 
 ### Como Utilizar ? ### 
 
 Para utilizá-lo basta baixar a pasta .zip ou clonar o repositório em sua máquina, após isso siga os passos:
 
- - Dentro da pasta /stone-marvel:
+ - Dentro da pasta:
    - Crie um arquivo __.env__ e cole suas configurações de ambiente.
-   - Execute o comando __npm install__ e após isso execute o comando __npm run dev__
+   - Execute o comando __npm install__ ou __yarn__ e após isso execute o comando __npm run dev__
 
 
 #### Qualquer dúvida me chame nas redes sociais, happy hacking  :top: ####
