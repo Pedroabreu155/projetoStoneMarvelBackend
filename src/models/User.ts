@@ -22,10 +22,10 @@ export default class User {
   @Column()
   password: string;
 
-  @Column('json', { nullable: true })
+  @Column('json', { default: [] })
   favoriteCharacters: JSON;
 
-  @Column('json', { nullable: true })
+  @Column('json', { default: [] })
   favoriteComics: JSON;
 
   @CreateDateColumn()
