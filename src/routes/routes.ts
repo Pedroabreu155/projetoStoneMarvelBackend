@@ -1,9 +1,12 @@
 import { Router, Request, Response } from 'express';
 import {
   createUser,
-  findUserById,
-  findUsers,
-  getFavoritesByUserId
+  getUserById,
+  getUsers,
+  getFavoritesComicsByUserId,
+  getFavoritesCharactersByUserId,
+  addFavoritesComicsByUserId,
+  addFavoritesCharactersByUserId,
 } from '../controllers/UserController';
 
 const routes = Router();
@@ -13,8 +16,11 @@ routes.get('/', (request: Request, response: Response) => {
 });
 
 routes.post('/users', createUser);
-routes.get('/users', findUsers);
-routes.get('/users/:id', findUserById);
-routes.get('/users/favorites/:id', getFavoritesByUserId);
+routes.get('/users', getUsers);
+routes.get('/users/:id', getUserById);
+routes.get('/users/favorites-comics/:id', getFavoritesComicsByUserId);
+routes.get('/users/favorites-characters/:id', getFavoritesCharactersByUserId);
+routes.put('/users/edit-favorite-comics/:id', addFavoritesComicsByUserId);
+routes.put('/users/edit-favorite-characters/:id', addFavoritesCharactersByUserId);
 
 export default routes;

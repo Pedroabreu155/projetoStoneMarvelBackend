@@ -20,23 +20,61 @@ export const createUser = async (request: Request, response: Response) => {
   response.json(user);
 };
 
-export const findUsers = async (request: Request, response: Response) => {
+export const getUsers = async (request: Request, response: Response) => {
   const users = await getRepository(User).find();
 
   response.json(users);
 };
 
-export const findUserById = async (request: Request, response: Response) => {
+export const getUserById = async (request: Request, response: Response) => {
   const id = request.params;
 
   const user = await getRepository(User).findOne({
     where: id,
   });
 
-  response.json(user);
+  const result = {
+    id: user?.id,
+    name: user?.name,
+    email: user?.email
+  };
+
+  response.json(result);
 };
 
-export const getFavoritesByUserId = async (
+export const addFavoritesComicsByUserId = async (
+  request: Request,
+  response: Response
+) => {
+  const { id } = request.params;
+
+  const user = await getRepository(User).update(id, request.body);
+
+  if (user.affected === 1) {
+    const updatedFavoriteComic = await getRepository(User).findOne(id);
+    return response.json(updatedFavoriteComic);
+  }
+
+  return response.status(404).json({ message: 'FavoriteComic not updated' });
+};
+
+export const addFavoritesCharactersByUserId = async (
+  request: Request,
+  response: Response
+) => {
+  const { id } = request.params;
+
+  const user = await getRepository(User).update(id, request.body);
+
+  if (user.affected === 1) {
+    const updatedFavoriteCharacters = await getRepository(User).findOne(id);
+    return response.json(updatedFavoriteCharacters);
+  }
+
+  return response.status(404).json({ message: 'FavoriteComic not updated' });
+};
+
+export const getFavoritesComicsByUserId = async (
   request: Request,
   response: Response
 ) => {
@@ -47,8 +85,24 @@ export const getFavoritesByUserId = async (
   });
 
   const result = {
-    favoriteCharacters: user?.favoriteCharacters,
-    favoriteComics: user?.favoriteComics,
+    favoriteComics: user?.favoriteComics
+  };
+
+  response.json(result);
+};
+
+export const getFavoritesCharactersByUserId = async (
+  request: Request,
+  response: Response
+) => {
+  const id = request.params;
+
+  const user = await getRepository(User).findOne({
+    where: id,
+  });
+
+  const result = {
+    favoriteCharacters: user?.favoriteCharacters
   };
 
   response.json(result);
