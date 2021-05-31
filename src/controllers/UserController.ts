@@ -39,9 +39,9 @@ export const updateUserById = async (request: Request, response: Response) => {
     const result = {
       message: 'User updated!',
       credentials: {
-          name: updatedUserCredentials?.name,
-          email: updatedUserCredentials?.email,
-      }
+        name: updatedUserCredentials?.name,
+        email: updatedUserCredentials?.email,
+      },
     };
     return response.json(result);
   }
@@ -52,17 +52,9 @@ export const updateUserById = async (request: Request, response: Response) => {
 export const deleteUserById = async (request: Request, response: Response) => {
   const { id } = request.params;
 
-  const user = await getRepository(User).delete(id)
+  const user = await getRepository(User).delete(id);
   if (user.affected === 1) {
-    const deletedUserCredentials = await getRepository(User).findOne(id);
-    const result = {
-      message: 'User deleted!',
-      credentials: {
-        name: deletedUserCredentials?.name,
-        email: deletedUserCredentials?.email,
-      },
-    };
-    return response.json(result);
+    return response.json({ message: 'User Deleted!' });
   }
 
   return response.status(404).json({ message: 'User not updated' });
