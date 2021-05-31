@@ -58,7 +58,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFavoritesCharactersByUserId = exports.getFavoritesComicsByUserId = exports.updateFavoritesCharactersByUserId = exports.updateFavoritesComicsByUserId = exports.getUserById = exports.getUsers = exports.updateUserById = exports.createUser = void 0;
+exports.getFavoritesCharactersByUserId = exports.getFavoritesComicsByUserId = exports.updateFavoritesCharactersByUserId = exports.updateFavoritesComicsByUserId = exports.getUserById = exports.getUsers = exports.deleteUserById = exports.updateUserById = exports.createUser = void 0;
 var User_1 = __importDefault(require("../models/User"));
 var bcrypt = __importStar(require("bcrypt"));
 var typeorm_1 = require("typeorm");
@@ -110,10 +110,10 @@ var updateUserById = function (request, response) { return __awaiter(void 0, voi
                 updatedUserCredentials = _b.sent();
                 result = {
                     message: 'User updated!',
-                    credentials: [
-                        updatedUserCredentials === null || updatedUserCredentials === void 0 ? void 0 : updatedUserCredentials.name,
-                        updatedUserCredentials === null || updatedUserCredentials === void 0 ? void 0 : updatedUserCredentials.email,
-                    ],
+                    credentials: {
+                        name: updatedUserCredentials === null || updatedUserCredentials === void 0 ? void 0 : updatedUserCredentials.name,
+                        email: updatedUserCredentials === null || updatedUserCredentials === void 0 ? void 0 : updatedUserCredentials.email,
+                    }
                 };
                 return [2 /*return*/, response.json(result)];
             case 4: return [2 /*return*/, response.status(404).json({ message: 'User not updated' })];
@@ -121,6 +121,32 @@ var updateUserById = function (request, response) { return __awaiter(void 0, voi
     });
 }); };
 exports.updateUserById = updateUserById;
+var deleteUserById = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, user, deletedUserCredentials, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = request.params.id;
+                return [4 /*yield*/, typeorm_1.getRepository(User_1.default).delete(id)];
+            case 1:
+                user = _a.sent();
+                if (!(user.affected === 1)) return [3 /*break*/, 3];
+                return [4 /*yield*/, typeorm_1.getRepository(User_1.default).findOne(id)];
+            case 2:
+                deletedUserCredentials = _a.sent();
+                result = {
+                    message: 'User deleted!',
+                    credentials: {
+                        name: deletedUserCredentials === null || deletedUserCredentials === void 0 ? void 0 : deletedUserCredentials.name,
+                        email: deletedUserCredentials === null || deletedUserCredentials === void 0 ? void 0 : deletedUserCredentials.email,
+                    },
+                };
+                return [2 /*return*/, response.json(result)];
+            case 3: return [2 /*return*/, response.status(404).json({ message: 'User not updated' })];
+        }
+    });
+}); };
+exports.deleteUserById = deleteUserById;
 var getUsers = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {

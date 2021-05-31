@@ -10,6 +10,7 @@ routes.post('/users', UserController_1.createUser);
 routes.get('/users', UserController_1.getUsers);
 routes.get('/users/:id', UserController_1.getUserById);
 routes.put('/users/edit-user/:id', UserController_1.updateUserById);
+routes.delete('/users/delete-user/:id', UserController_1.deleteUserById);
 routes.get('/users/favorites-comics/:id', UserController_1.getFavoritesComicsByUserId);
 routes.get('/users/favorites-characters/:id', UserController_1.getFavoritesCharactersByUserId);
 routes.put('/users/edit-favorite-comics/:id', UserController_1.updateFavoritesComicsByUserId);

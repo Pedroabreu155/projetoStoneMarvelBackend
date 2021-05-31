@@ -4,6 +4,7 @@ import {
   getUserById,
   getUsers,
   updateUserById,
+  deleteUserById,
   getFavoritesComicsByUserId,
   getFavoritesCharactersByUserId,
   updateFavoritesComicsByUserId,
@@ -20,6 +21,7 @@ routes.post('/users', createUser);
 routes.get('/users', getUsers);
 routes.get('/users/:id', getUserById);
 routes.put('/users/edit-user/:id', updateUserById);
+routes.delete('/users/delete-user/:id', deleteUserById);
 routes.get('/users/favorites-comics/:id', getFavoritesComicsByUserId);
 routes.get('/users/favorites-characters/:id', getFavoritesCharactersByUserId);
 routes.put('/users/edit-favorite-comics/:id', updateFavoritesComicsByUserId);
