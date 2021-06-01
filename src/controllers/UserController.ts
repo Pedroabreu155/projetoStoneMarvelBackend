@@ -21,12 +21,12 @@ export const createUser = async (request: Request, response: Response) => {
   user.password = '';
 
   const userId = user.id;
-  const token = jwt.sign({ userId }, process.env.TOKEN_SECRET, {
+  const token = await jwt.sign({ userId }, process.env.TOKEN_SECRET, {
     expiresIn: 60 * 60, //this is equal 1hour '1h'
   });
 
   const createdUser = {
-    id: user.id,
+    id: userId,
     name: user.name,
     email: user.email,
   };

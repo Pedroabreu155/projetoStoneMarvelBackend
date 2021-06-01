@@ -20,7 +20,7 @@ routes.get('/', (request: Request, response: Response) => {
   return response.json({ message: 'Hello World' });
 });
 
-routes.post('/users', createUser);
+routes.post('/signup', createUser);
 routes.get('/users', getUsers);
 routes.post('/login', login);
 
