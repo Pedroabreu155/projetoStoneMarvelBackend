@@ -62,8 +62,9 @@ exports.getFavoritesCharactersByUserId = exports.getFavoritesComicsByUserId = ex
 var User_1 = __importDefault(require("../models/User"));
 var bcrypt = __importStar(require("bcrypt"));
 var typeorm_1 = require("typeorm");
+var jwt = require('jsonwebtoken');
 var createUser = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name, email, password, favoriteComics, favoriteCharacters, hashedPassword, user;
+    var _a, name, email, password, favoriteComics, favoriteCharacters, hashedPassword, user, userId, token, createdUser;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -81,7 +82,18 @@ var createUser = function (request, response) { return __awaiter(void 0, void 0,
             case 2:
                 user = _b.sent();
                 user.password = '';
-                response.json(user);
+                userId = user.id;
+                return [4 /*yield*/, jwt.sign({ userId: userId }, process.env.TOKEN_SECRET, {
+                        expiresIn: 60 * 60, //this is equal 1hour '1h'
+                    })];
+            case 3:
+                token = _b.sent();
+                createdUser = {
+                    id: userId,
+                    name: user.name,
+                    email: user.email,
+                };
+                response.json({ createdUser: createdUser, token: token });
                 return [2 /*return*/];
         }
     });
@@ -177,7 +189,7 @@ var getUserById = function (request, response) { return __awaiter(void 0, void 0
 }); };
 exports.getUserById = getUserById;
 var updateFavoritesComicsByUserId = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, user, updatedFavoriteComic;
+    var id, user, updatedFavoriteComic, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -189,14 +201,20 @@ var updateFavoritesComicsByUserId = function (request, response) { return __awai
                 return [4 /*yield*/, typeorm_1.getRepository(User_1.default).findOne(id)];
             case 2:
                 updatedFavoriteComic = _a.sent();
-                return [2 /*return*/, response.json(updatedFavoriteComic)];
+                result = {
+                    message: 'Favorites updated!',
+                    updated: {
+                        comics: updatedFavoriteComic === null || updatedFavoriteComic === void 0 ? void 0 : updatedFavoriteComic.favoriteComics,
+                    },
+                };
+                return [2 /*return*/, response.json(result)];
             case 3: return [2 /*return*/, response.status(404).json({ message: 'FavoriteComic not updated' })];
         }
     });
 }); };
 exports.updateFavoritesComicsByUserId = updateFavoritesComicsByUserId;
 var updateFavoritesCharactersByUserId = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, user, updatedFavoriteCharacters;
+    var id, user, updatedFavoriteCharacters, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -208,7 +226,13 @@ var updateFavoritesCharactersByUserId = function (request, response) { return __
                 return [4 /*yield*/, typeorm_1.getRepository(User_1.default).findOne(id)];
             case 2:
                 updatedFavoriteCharacters = _a.sent();
-                return [2 /*return*/, response.json(updatedFavoriteCharacters)];
+                result = {
+                    message: 'Favorites updated!',
+                    updated: {
+                        characters: updatedFavoriteCharacters === null || updatedFavoriteCharacters === void 0 ? void 0 : updatedFavoriteCharacters.favoriteCharacters,
+                    },
+                };
+                return [2 /*return*/, response.json(result)];
             case 3: return [2 /*return*/, response.status(404).json({ message: 'FavoriteComic not updated' })];
         }
     });

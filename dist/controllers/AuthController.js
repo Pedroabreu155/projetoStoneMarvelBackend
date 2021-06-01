@@ -90,7 +90,7 @@ var login = function (request, response) { return __awaiter(void 0, void 0, void
                         });
                         return response
                             .status(200)
-                            .json({ message: 'Authenticated!', id: user.id, token: token });
+                            .json({ message: 'Authenticated!', name: user.name, id: user.id, token: token });
                     }
                     else {
                         return response.status(401).json({ message: 'Authenticaton Failed!' });
