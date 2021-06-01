@@ -24,16 +24,13 @@ routes.post('/signup', createUser);
 routes.get('/users', getUsers);
 routes.post('/login', login);
 
-//Authentication Middleware//
-routes.use(auth);
-
 //Authenticated Routes//
-routes.get('/users/:id', getUserById);
-routes.put('/users/edit-user/:id', updateUserById);
-routes.delete('/users/delete-user/:id', deleteUserById);
-routes.get('/users/favorites-comics/:id', getFavoritesComicsByUserId);
-routes.get('/users/favorites-characters/:id', getFavoritesCharactersByUserId);
-routes.put('/users/edit-favorite-comics/:id', updateFavoritesComicsByUserId);
+routes.get('/users/:id', auth, getUserById);
+routes.put('/users/edit-user/:id', auth, updateUserById);
+routes.delete('/users/delete-user/:id', auth, deleteUserById);
+routes.get('/users/favorites-comics/:id', auth, getFavoritesComicsByUserId);
+routes.get('/users/favorites-characters/:id', auth, getFavoritesCharactersByUserId);
+routes.put('/users/edit-favorite-comics/:id', auth, updateFavoritesComicsByUserId);
 routes.put(
   '/users/edit-favorite-characters/:id',
   updateFavoritesCharactersByUserId
