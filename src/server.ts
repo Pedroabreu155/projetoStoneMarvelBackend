@@ -1,10 +1,8 @@
-import dotenv from 'dotenv'
+import './config/env'
 import 'reflect-metadata'
 import express from 'express';
 import './database/index';
 import routes from './routes/routes';
-
-dotenv.config()
 
 const app = express();
 

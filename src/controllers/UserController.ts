@@ -62,7 +62,9 @@ export const deleteUserById = async (request: Request, response: Response) => {
 
 export const getUsers = async (request: Request, response: Response) => {
   const users = await getRepository(User).find();
-
+  users.map(user => {
+    user.password = ''
+  })
   response.json(users);
 };
 

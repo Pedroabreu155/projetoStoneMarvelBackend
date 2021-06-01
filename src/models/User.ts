@@ -19,7 +19,7 @@ export default class User {
   })
   email: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @Column('json', { default: [] })

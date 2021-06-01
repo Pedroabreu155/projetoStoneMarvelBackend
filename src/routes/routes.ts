@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { login } from '../controllers/AuthController'
 import {
   createUser,
   getUserById,
@@ -19,6 +20,9 @@ routes.get('/', (request: Request, response: Response) => {
 
 routes.post('/users', createUser);
 routes.get('/users', getUsers);
+routes.post('/login', login)
+
+//Authenticated Routes
 routes.get('/users/:id', getUserById);
 routes.put('/users/edit-user/:id', updateUserById);
 routes.delete('/users/delete-user/:id', deleteUserById);
