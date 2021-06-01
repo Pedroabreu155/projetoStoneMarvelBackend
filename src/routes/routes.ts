@@ -28,7 +28,7 @@ routes.post('/login', login);
 routes.use(auth);
 
 //Authenticated Routes//
-routes.get('/users/:id', getUserById);
+routes.get('/users/:id', auth, getUserById);
 routes.put('/users/edit-user/:id', updateUserById);
 routes.delete('/users/delete-user/:id', deleteUserById);
 routes.get('/users/favorites-comics/:id', getFavoritesComicsByUserId);
