@@ -106,7 +106,13 @@ export const updateFavoritesComicsByUserId = async (
 
   if (user.affected === 1) {
     const updatedFavoriteComic = await getRepository(User).findOne(id);
-    return response.json(updatedFavoriteComic);
+    const result = {
+      message: 'Favorites updated!',
+      updated: {
+        comics: updatedFavoriteComic?.favoriteComics,
+      },
+    };
+    return response.json(result);
   }
 
   return response.status(404).json({ message: 'FavoriteComic not updated' });
@@ -122,7 +128,15 @@ export const updateFavoritesCharactersByUserId = async (
 
   if (user.affected === 1) {
     const updatedFavoriteCharacters = await getRepository(User).findOne(id);
-    return response.json(updatedFavoriteCharacters);
+
+    const result = {
+      message: 'Favorites updated!',
+      updated: {
+        characters: updatedFavoriteCharacters?.favoriteCharacters,
+      },
+    };
+
+    return response.json(result);
   }
 
   return response.status(404).json({ message: 'FavoriteComic not updated' });
