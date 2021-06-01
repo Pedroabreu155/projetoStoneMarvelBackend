@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/User';
 import * as bcrypt from 'bcrypt';
 import { getRepository } from 'typeorm';
+const jwt = require('jsonwebtoken');
 
 export const createUser = async (request: Request, response: Response) => {
   const { name, email, password, favoriteComics, favoriteCharacters } =
@@ -19,7 +20,18 @@ export const createUser = async (request: Request, response: Response) => {
 
   user.password = '';
 
-  response.json(user);
+  const userId = user.id;
+  const token = jwt.sign({ userId }, process.env.TOKEN_SECRET, {
+    expiresIn: 60 * 60, //this is equal 1hour '1h'
+  });
+
+  const createdUser = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  };
+
+  response.json({ createdUser, token });
 };
 
 export const updateUserById = async (request: Request, response: Response) => {
@@ -63,8 +75,8 @@ export const deleteUserById = async (request: Request, response: Response) => {
 export const getUsers = async (request: Request, response: Response) => {
   const users = await getRepository(User).find();
   users.map(user => {
-    user.password = ''
-  })
+    user.password = '';
+  });
   response.json(users);
 };
 
