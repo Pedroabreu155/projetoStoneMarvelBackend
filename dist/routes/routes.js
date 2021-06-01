@@ -11,14 +11,12 @@ routes.get('/', function (request, response) {
 routes.post('/signup', UserController_1.createUser);
 routes.get('/users', UserController_1.getUsers);
 routes.post('/login', AuthController_1.login);
-//Authentication Middleware//
-routes.use(authMiddleware_1.auth);
 //Authenticated Routes//
-routes.get('/users/:id', UserController_1.getUserById);
-routes.put('/users/edit-user/:id', UserController_1.updateUserById);
-routes.delete('/users/delete-user/:id', UserController_1.deleteUserById);
-routes.get('/users/favorites-comics/:id', UserController_1.getFavoritesComicsByUserId);
-routes.get('/users/favorites-characters/:id', UserController_1.getFavoritesCharactersByUserId);
-routes.put('/users/edit-favorite-comics/:id', UserController_1.updateFavoritesComicsByUserId);
+routes.get('/users/:id', authMiddleware_1.auth, UserController_1.getUserById);
+routes.put('/users/edit-user/:id', authMiddleware_1.auth, UserController_1.updateUserById);
+routes.delete('/users/delete-user/:id', authMiddleware_1.auth, UserController_1.deleteUserById);
+routes.get('/users/favorites-comics/:id', authMiddleware_1.auth, UserController_1.getFavoritesComicsByUserId);
+routes.get('/users/favorites-characters/:id', authMiddleware_1.auth, UserController_1.getFavoritesCharactersByUserId);
+routes.put('/users/edit-favorite-comics/:id', authMiddleware_1.auth, UserController_1.updateFavoritesComicsByUserId);
 routes.put('/users/edit-favorite-characters/:id', UserController_1.updateFavoritesCharactersByUserId);
 exports.default = routes;
