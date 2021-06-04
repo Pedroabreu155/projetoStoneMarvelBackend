@@ -3,6 +3,8 @@ import User from '../models/User';
 import * as bcrypt from 'bcrypt';
 import { getRepository } from 'typeorm';
 const jwt = require('jsonwebtoken');
+import * as nodemailer from 'nodemailer';
+import * as crypto from 'crypto';
 
 export const createUser = async (request: Request, response: Response) => {
   const { name, email, password, favoriteComics, favoriteCharacters } =
@@ -59,6 +61,60 @@ export const updateUserById = async (request: Request, response: Response) => {
   }
 
   return response.status(404).json({ message: 'User not updated' });
+};
+
+export const resetPassword = async (request: Request, response: Response) => {
+  const { email } = request.body;
+
+  const user = await getRepository(User).findOne({
+    where: {
+      email,
+    },
+  });
+
+  if (user) {
+    const transport = nodemailer.createTransport({
+      host: 'smtp.mailtrap.io',
+      port: 2525,
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+
+    const newPassword = crypto.randomBytes(4).toString('hex'); //creating a random new string
+
+    transport
+      .sendMail({
+        from: 'MasterComics <e377b16e3f-90c160@inbox.mailtrap.io>',
+        to: email,
+        subject: 'Sua nova senha para acessar o App',
+        html: `
+          <h1>Sua nova senha chegou!</h1>
+          <br/>
+          <p>Sua senha é:<b> ${newPassword}</b></p>
+          <br/>
+          <p>Após acessar o aplicativo, sugerimos que mude sua senha!</p>
+          <br/>
+          <p>Link para o app: <a href="https://master-comics.herokuapp.com/">Master Comics</a></p>
+        `,
+      })
+      .then(async () => {
+        const password = await bcrypt.hash(newPassword, 10);
+
+        getRepository(User).update(user.id, {
+          password,
+        });
+      })
+      .then(() => {
+        return response.status(200).json({ message: 'Email sended!' });
+      })
+      .catch(() => {
+        return response.status(404).json({ message: 'fail to send Email!' });
+      });
+  } else {
+    response.status(404).json({ message: 'User not found!' });
+  }
 };
 
 export const deleteUserById = async (request: Request, response: Response) => {

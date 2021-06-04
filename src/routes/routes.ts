@@ -5,6 +5,7 @@ import {
   getUserById,
   getUsers,
   updateUserById,
+  resetPassword,
   deleteUserById,
   getFavoritesComicsByUserId,
   getFavoritesCharactersByUserId,
@@ -23,6 +24,7 @@ routes.get('/', (request: Request, response: Response) => {
 routes.post('/signup', createUser);
 routes.get('/users', getUsers);
 routes.post('/login', login);
+routes.post('/reset-password', resetPassword);
 
 //Authenticated Routes//
 routes.get('/users/:id', auth, getUserById);
